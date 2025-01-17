@@ -2,29 +2,59 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import Link from "next/link";
 
 const SigninButton = () => {
   const { data: session } = useSession();
 
   if (session && session.user) {
     return (
-      <div className="flex gap-4 ml-auto items-center">
-        <p className="text-sky-600">{session.user.name}</p>
-        <Image
-          src={session.user.image ?? ""}
-          alt={session.user.name ?? ""}
-          className=" rounded-full"
-          width={32}
-          height={32}
-        />
-        <button onClick={() => signOut()} className="text-red-600">
-          Sign Out
-        </button>
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Image
+            src={session.user.image ?? ""}
+            alt={session.user.name ?? ""}
+            className=" rounded-full"
+            width={35}
+            height={35}
+          />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>
+            <p className="text-black">{session.user.name}</p>
+            <p className="text-sm text-gray-600">Role: {session.user.role}</p>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <Link href={"/profile"}>Profile</Link>
+            </DropdownMenuItem>
+            {session.user.role === "admin" && (
+              <DropdownMenuItem>
+                <Link href={"/admin"}>Admin Panel</Link>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem>
+              <button onClick={() => signOut()} className="text-red-600">
+                Sign Out
+              </button>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
   return (
-    <button onClick={() => signIn()} className="text-green-600 ml-auto">
+    <button onClick={() => signIn()} className="text-white ml-auto">
       Sign In
     </button>
   );

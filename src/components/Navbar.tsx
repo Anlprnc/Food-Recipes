@@ -19,7 +19,7 @@ const Navbar = () => {
         <li className="cursor-pointer">
           <Link href={"/pages/contact"}>Contact</Link>
         </li>
-        <li className="text-white bg-black p-2 rounded-full cursor-pointer">
+        <li className="shrink-0 text-white bg-black p-0.5 rounded-full cursor-pointer">
           <a>
             <SigninButton />
           </a>
