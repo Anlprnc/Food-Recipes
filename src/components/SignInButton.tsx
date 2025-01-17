@@ -31,7 +31,6 @@ const SigninButton = () => {
         <DropdownMenuContent>
           <DropdownMenuLabel>
             <p className="text-black">{session.user.name}</p>
-            <p className="text-sm text-gray-600">Role: {session.user.role}</p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
@@ -40,7 +39,7 @@ const SigninButton = () => {
             </DropdownMenuItem>
             {session.user.role === "admin" && (
               <DropdownMenuItem>
-                <Link href={"/admin"}>Admin Panel</Link>
+                <Link href={"/admin"}>Admin</Link>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem>
