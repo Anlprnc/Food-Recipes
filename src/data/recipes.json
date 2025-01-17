@@ -1,0 +1,164 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Creamy Meatballs & Pasta",
+      "time": "35 Minutes",
+      "servings": "4 Servings",
+      "calories": "210 Calories",
+      "image": "/pasta.png",
+      "category": "Pastas",
+      "difficulty": "Medium",
+      "cuisine": "Italian",
+      "rating": 4.8,
+      "reviews": 245,
+      "steps": [
+        "Cook pasta according to package instructions.",
+        "Prepare meatballs by combining ground meat, breadcrumbs, and seasoning.",
+        "Fry meatballs until golden brown.",
+        "Prepare a creamy sauce in a pan and add cooked meatballs.",
+        "Combine the sauce and meatballs with the cooked pasta."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Classic Spaghetti Carbonara",
+      "time": "25 Minutes",
+      "servings": "3 Servings",
+      "calories": "190 Calories",
+      "image": "/pasta.png",
+      "category": "Pastas",
+      "difficulty": "Medium",
+      "cuisine": "Italian",
+      "rating": 4.9,
+      "reviews": 312,
+      "steps": [
+        "Cook spaghetti until al dente.",
+        "Fry diced pancetta in a pan until crispy.",
+        "Whisk together eggs, cheese, and black pepper.",
+        "Combine the hot spaghetti with the egg mixture and pancetta.",
+        "Serve immediately with additional cheese on top."
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Penne Arrabbiata",
+      "time": "20 Minutes",
+      "servings": "2 Servings",
+      "calories": "180 Calories",
+      "image": "/pasta.png",
+      "category": "Pastas",
+      "difficulty": "Easy",
+      "cuisine": "Italian",
+      "rating": 4.7,
+      "reviews": 189,
+      "steps": [
+        "Cook penne pasta until al dente.",
+        "Heat olive oil in a pan and sauté garlic and red chili flakes.",
+        "Add crushed tomatoes and simmer for 10 minutes.",
+        "Mix the sauce with the cooked pasta.",
+        "Garnish with fresh parsley and serve."
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Mediterranean Pasta Salad",
+      "time": "30 Minutes",
+      "servings": "4 Servings",
+      "calories": "170 Calories",
+      "image": "/pasta.png",
+      "category": "Pastas",
+      "difficulty": "Easy",
+      "cuisine": "Mediterranean",
+      "rating": 4.6,
+      "reviews": 156,
+      "steps": [
+        "Cook pasta and let it cool.",
+        "Chop vegetables like cucumbers, tomatoes, and bell peppers.",
+        "Prepare a dressing with olive oil, lemon juice, and oregano.",
+        "Mix the pasta, vegetables, and dressing in a bowl.",
+        "Add feta cheese and olives before serving."
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Greek Salad",
+      "time": "15 Minutes",
+      "servings": "2 Servings",
+      "calories": "120 Calories",
+      "image": "/pasta.png",
+      "category": "Salads",
+      "difficulty": "Easy",
+      "cuisine": "Mediterranean",
+      "rating": 4.5,
+      "reviews": 178,
+      "steps": [
+        "Chop cucumbers, tomatoes, and red onions.",
+        "Add olives and feta cheese to the bowl.",
+        "Prepare a dressing with olive oil, red wine vinegar, and oregano.",
+        "Toss the salad with the dressing.",
+        "Serve immediately."
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Caesar Salad",
+      "time": "20 Minutes",
+      "servings": "2 Servings",
+      "calories": "150 Calories",
+      "image": "/pasta.png",
+      "category": "Salads",
+      "difficulty": "Easy",
+      "cuisine": "International",
+      "rating": 4.7,
+      "reviews": 234,
+      "steps": [
+        "Wash and dry romaine lettuce.",
+        "Prepare croutons by toasting bread cubes with olive oil and garlic.",
+        "Mix Caesar dressing with grated Parmesan cheese.",
+        "Toss lettuce with the dressing and croutons.",
+        "Serve with additional Parmesan on top."
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Quinoa & Roasted Vegetable Salad",
+      "time": "25 Minutes",
+      "servings": "3 Servings",
+      "calories": "140 Calories",
+      "image": "/pasta.png",
+      "category": "Salads",
+      "difficulty": "Medium",
+      "cuisine": "Modern",
+      "rating": 4.8,
+      "reviews": 167,
+      "steps": [
+        "Cook quinoa according to package instructions.",
+        "Roast vegetables like zucchini, bell peppers, and onions.",
+        "Prepare a dressing with olive oil, lemon juice, and herbs.",
+        "Combine quinoa, roasted vegetables, and dressing.",
+        "Serve warm or chilled."
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Grilled Chicken Salad",
+      "time": "20 Minutes",
+      "servings": "2 Servings",
+      "calories": "160 Calories",
+      "image": "/pasta.png",
+      "category": "Salads",
+      "difficulty": "Easy",
+      "cuisine": "International",
+      "rating": 4.6,
+      "reviews": 145,
+      "steps": [
+        "Grill chicken breasts until fully cooked.",
+        "Chop lettuce, tomatoes, and cucumbers.",
+        "Slice the grilled chicken into strips.",
+        "Prepare a dressing with olive oil, vinegar, and mustard.",
+        "Combine all ingredients in a bowl and serve."
+      ]
+    }
+  ]
+}
