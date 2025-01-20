@@ -1,6 +1,6 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Card from "./Card";
+'use client';
+import { useEffect, useState } from 'react';
+import Card from './Card';
 
 type Recipe = {
   id: number;
@@ -22,10 +22,11 @@ const Cards = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await import("../data/recipes.json");
-        setRecipes(response.recipes);
+        const response = await fetch('/api/recipes');
+        const data = await response.json();
+        setRecipes(data);
       } catch (error) {
-        console.error("Error fetching recipes:", error);
+        console.error('Error fetching recipes:', error);
       }
     };
 
@@ -37,7 +38,7 @@ const Cards = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 place-items-center gap-x-8 gap-y-6 drop-shadow">
         {recipes.slice(0, 6).map((recipe) => (
           <Card key={recipe.id} {...recipe} />
-        ))}{" "}
+        ))}
       </div>
     </div>
   );

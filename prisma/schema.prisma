@@ -64,3 +64,22 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+model Recipe {
+  id         Int      @id @default(autoincrement())
+  title      String
+  time       String
+  servings   String
+  calories   String
+  image      String
+  category   String
+  difficulty String
+  cuisine    String
+  rating     Float
+  reviews    Int
+  steps      String[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("recipes")
+}
