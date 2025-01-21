@@ -21,7 +21,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json() as Recipe;
+  const body = (await req.json()) as Recipe;
   const newRecipe = await prisma.recipe.create({
     data: {
       title: body.title,
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
       cuisine: body.cuisine,
       rating: Number(body.rating),
       reviews: Number(body.reviews),
-      steps: body.steps
-    }
+      steps: body.steps,
+    },
   });
 
   return Response.json(newRecipe);
