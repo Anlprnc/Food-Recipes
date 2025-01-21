@@ -51,7 +51,7 @@ const RecipeList = ({ onEdit }: { onEdit: (recipe: Recipe) => void }) => {
             <div className="space-x-2">
               <button
                 onClick={() => onEdit(recipe)}
-                className="px-3 py-1 bg-yellow-500 text-white rounded"
+                className="px-3 py-1 bg-lime-500 text-white rounded"
               >
                 Edit
               </button>
