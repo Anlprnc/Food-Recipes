@@ -1,15 +1,9 @@
 'use client';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Recipe } from '@/types/recipe';
-import { FormEvent, useState } from 'react';
 
-interface RecipeFormProps {
-  isEditing: boolean;
-  recipe?: Recipe;
-  onSubmit: (formData: Recipe) => Promise<void>;
-  onCancel: () => void;
-}
-
-type FormDataKeys = Exclude<keyof Recipe, 'id'>;
+type FormDataKeys = Exclude<keyof Recipe, 'id' | 'createdAt' | 'updatedAt'>;
 
 interface FormField {
   name: FormDataKeys;
@@ -19,40 +13,22 @@ interface FormField {
   placeholder?: string;
 }
 
-const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) => {
+const EditPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const recipeId = searchParams.get('id');
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<Partial<Recipe>>({});
 
   const formFields: FormField[] = [
-    {
-      name: 'title',
-      label: 'Recipe Title',
-      type: 'text',
-      placeholder: 'Enter recipe title',
-    },
-    {
-      name: 'time',
-      label: 'Cooking Time',
-      type: 'text',
-      placeholder: 'e.g., 30 minutes',
-    },
-    {
-      name: 'servings',
-      label: 'Servings',
-      type: 'text',
-      placeholder: 'e.g., 4 servings',
-    },
-    {
-      name: 'calories',
-      label: 'Calories',
-      type: 'text',
-      placeholder: 'e.g., 500 kcal',
-    },
-    {
-      name: 'image',
-      label: 'Recipe Image',
-      type: 'file',
-      placeholder: 'Select an image',
-    },
+    { name: 'title', label: 'Recipe Title', type: 'text', placeholder: 'Enter recipe title' },
+    { name: 'time', label: 'Cooking Time', type: 'text', placeholder: 'e.g., 30 minutes' },
+    { name: 'servings', label: 'Servings', type: 'text', placeholder: 'e.g., 4 servings' },
+    { name: 'calories', label: 'Calories', type: 'text', placeholder: 'e.g., 500 kcal' },
+    { name: 'image', label: 'Recipe Image', type: 'file' },
     {
       name: 'category',
       label: 'Category',
@@ -65,36 +41,31 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
       type: 'select',
       options: ['Easy', 'Medium', 'Hard'],
     },
-    {
-      name: 'cuisine',
-      label: 'Cuisine',
-      type: 'text',
-      placeholder: 'e.g., Italian',
-    },
-    {
-      name: 'steps',
-      label: 'Steps',
-      type: 'array',
-      placeholder: 'Add cooking step',
-    },
+    { name: 'cuisine', label: 'Cuisine', type: 'text', placeholder: 'e.g., Italian' },
+    { name: 'steps', label: 'Steps', type: 'array', placeholder: 'Add cooking step' },
   ];
 
-  const [formData, setFormData] = useState<Recipe>({
-    id: recipe?.id || 0,
-    title: recipe?.title || '',
-    time: recipe?.time || '',
-    servings: recipe?.servings || '',
-    calories: recipe?.calories || '',
-    image: recipe?.image || '',
-    category: recipe?.category || '',
-    difficulty: recipe?.difficulty || '',
-    cuisine: recipe?.cuisine || '',
-    steps: recipe?.steps || [],
-    rating: recipe?.rating || 0,
-    reviews: recipe?.reviews || 0,
-    createdAt: recipe?.createdAt || new Date(),
-    updatedAt: recipe?.updatedAt || new Date(),
-  });
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        if (!recipeId) throw new Error('Recipe ID is missing');
+
+        const response = await fetch(`/api/recipes/${recipeId}`);
+        if (!response.ok) throw new Error('Recipe not found');
+
+        const data = await response.json();
+        setRecipe(data);
+        setFormData(data);
+      } catch (error) {
+        setError('Failed to fetch recipe');
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipe();
+  }, [recipeId]);
 
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -103,34 +74,6 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    try {
-      if (isEditing) {
-        await onSubmit(formData);
-      } else {
-        const response = await fetch('/api/recipes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const newRecipe = await response.json();
-        await onSubmit(newRecipe); // Yeni recipe'ı parent componente gönder
-      }
-      onCancel(); // Form başarıyla gönderildikten sonra kapat
-    } catch (error) {
-      console.error('Error:', error);
-    }
   };
 
   const handleInputChange = async (name: FormDataKeys, value: string | File) => {
@@ -150,15 +93,44 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
   const handleStepAdd = (step: string) => {
     setFormData((prev) => ({
       ...prev,
-      steps: [...prev.steps, step],
+      steps: [...(prev.steps || []), step],
     }));
   };
 
   const handleStepRemove = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      steps: prev.steps.filter((_, i) => i !== index),
+      steps: prev.steps?.filter((_, i) => i !== index),
     }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!recipeId) {
+      setError('Recipe ID is missing');
+      return;
+    }
+
+    try {
+      const updatedData = {
+        ...formData,
+        id: parseInt(recipeId),
+        rating: Number(formData.rating),
+        reviews: Number(formData.reviews),
+      };
+
+      const response = await fetch(`/api/recipes/${recipeId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) throw new Error('Update failed');
+      router.push('/admin');
+    } catch (error) {
+      setError('Failed to update recipe');
+      console.error(error);
+    }
   };
 
   const renderField = (field: FormField) => {
@@ -178,13 +150,13 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
       case 'array':
         return (
           <div className="space-y-2">
-            {formData.steps.map((step, index) => (
+            {formData.steps?.map((step, index) => (
               <div key={index} className="flex gap-2">
                 <input
                   type="text"
                   value={step}
                   onChange={(e) => {
-                    const newSteps = [...formData.steps];
+                    const newSteps = [...(formData.steps || [])];
                     newSteps[index] = e.target.value;
                     setFormData((prev) => ({ ...prev, steps: newSteps }));
                   }}
@@ -257,24 +229,59 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 bg-white rounded-lg shadow">
-      {formFields.map((field) => (
-        <div key={field.name} className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-          {renderField(field)}
-        </div>
-      ))}
-      <div className="flex gap-4 pt-4">
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-          {isEditing ? 'Update Recipe' : 'Add Recipe'}
-        </button>
-        <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
-          Cancel
-        </button>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
       </div>
-    </form>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-red-50 p-4 rounded-lg">
+          <p className="text-red-500">{error}</p>
+          <button onClick={() => router.push('/admin')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Return to Admin
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <button onClick={() => router.back()} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+            Back
+          </button>
+          <h1 className="text-3xl font-bold">Edit Recipe</h1>
+        </div>
+        {recipe && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {formFields.map((field) => (
+                <div key={field.name} className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+                  {renderField(field)}
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-end space-x-4">
+              <button type="button" onClick={() => router.push('/admin')} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                Cancel
+              </button>
+              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default RecipeForm;
+export default EditPage;

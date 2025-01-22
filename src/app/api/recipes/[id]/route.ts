@@ -25,17 +25,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    if (!params?.id) {
-      return NextResponse.json({ error: 'Recipe ID is required' }, { status: 400 });
-    }
-
     const recipeId = parseInt(params.id);
     const body = await req.json();
 
-    if (!body) {
-      return NextResponse.json({ error: 'Request body is required' }, { status: 400 });
-    }
-
+    // Önce recipe'ın var olup olmadığını kontrol et
     const existingRecipe = await prisma.recipe.findUnique({
       where: { id: recipeId },
     });
@@ -44,32 +37,27 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
     }
 
-    const { title, time, servings, calories, image, category, difficulty, cuisine, rating, reviews, steps } = body;
-
-    if (!title || !time || !servings) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
-
+    // Recipe'ı güncelle
     const updatedRecipe = await prisma.recipe.update({
       where: {
         id: recipeId,
       },
       data: {
-        title: String(title),
-        time: String(time),
-        servings: String(servings),
-        calories: String(calories),
-        image: String(image),
-        category: String(category),
-        difficulty: String(difficulty),
-        cuisine: String(cuisine),
-        rating: parseFloat(rating),
-        reviews: parseInt(reviews),
-        steps: Array.isArray(steps) ? steps.map(String) : [],
+        title: body.title,
+        time: body.time,
+        servings: body.servings,
+        calories: body.calories,
+        image: body.image,
+        category: body.category,
+        difficulty: body.difficulty,
+        cuisine: body.cuisine,
+        rating: Number(body.rating),
+        reviews: Number(body.reviews),
+        steps: body.steps,
       },
     });
 
-    return NextResponse.json(updatedRecipe, { status: 200 });
+    return NextResponse.json(updatedRecipe);
   } catch (error) {
     console.error('Failed to update recipe:', error);
     return NextResponse.json({ error: 'Failed to update recipe' }, { status: 500 });

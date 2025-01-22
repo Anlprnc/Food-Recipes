@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Card from "./Card";
+import React, { useEffect, useState } from 'react';
+import Card from './Card';
 
 type Recipe = {
   id: number;
@@ -25,18 +25,17 @@ const RecipesCards = ({ activeCategory }: RecipesCardsProps) => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await import("../data/recipes.json");
-        setRecipes(response.recipes);
+        const response = await fetch('/api/recipes');
+        const data = await response.json();
+        setRecipes(data);
       } catch (error) {
-        console.error("Error fetching recipes:", error);
+        console.error('Error fetching recipes:', error);
       }
     };
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    activeCategory === "All" ? true : recipe.category === activeCategory,
-  );
+  const filteredRecipes = recipes.filter((recipe) => (activeCategory === 'All' ? true : recipe.category === activeCategory));
 
   return (
     <>
