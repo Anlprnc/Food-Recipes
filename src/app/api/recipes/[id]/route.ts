@@ -28,7 +28,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const recipeId = parseInt(params.id);
     const body = await req.json();
 
-    // Önce recipe'ın var olup olmadığını kontrol et
     const existingRecipe = await prisma.recipe.findUnique({
       where: { id: recipeId },
     });
@@ -37,7 +36,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
     }
 
-    // Recipe'ı güncelle
     const updatedRecipe = await prisma.recipe.update({
       where: {
         id: recipeId,

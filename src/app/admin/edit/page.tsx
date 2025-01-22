@@ -33,7 +33,7 @@ const EditPage = () => {
       name: 'category',
       label: 'Category',
       type: 'select',
-      options: ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'],
+      options: ['Pastas', 'Lunch', 'Dinner', 'Dessert', 'Breakfast'],
     },
     {
       name: 'difficulty',
