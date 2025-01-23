@@ -10,21 +10,6 @@ type Props = {
   };
 };
 
-type Recipe = {
-  id: number;
-  title: string;
-  time: string;
-  servings: string;
-  calories: string;
-  image: string;
-  category: string;
-  difficulty: string;
-  cuisine: string;
-  rating: number;
-  reviews: number;
-  steps: string[];
-};
-
 const getRecipe = async (id: string) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
