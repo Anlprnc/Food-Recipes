@@ -7,7 +7,7 @@ type NavbarProps = {
 };
 
 const RecipesNavbar = ({ activeCategory, setActiveCategory }: NavbarProps) => {
-  const categories = ['All', 'Pastas', 'Lunch', 'Dinner', 'Breakfast', 'Desert'];
+  const categories = ['All', 'Pastas', 'Lunch', 'Dinner', 'Breakfast', 'Dessert'];
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50">

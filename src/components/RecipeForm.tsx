@@ -57,7 +57,7 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
       name: 'category',
       label: 'Category',
       type: 'select',
-      options: ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'],
+      options: ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Pastas'],
     },
     {
       name: 'difficulty',
@@ -70,6 +70,18 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
       label: 'Cuisine',
       type: 'text',
       placeholder: 'e.g., Italian',
+    },
+    {
+      name: 'rating',
+      label: 'Rating',
+      type: 'number',
+      placeholder: 'Enter rating (0-5)',
+    },
+    {
+      name: 'reviews',
+      label: 'Reviews Count',
+      type: 'number',
+      placeholder: 'Enter number of reviews',
     },
     {
       name: 'steps',
@@ -125,9 +137,9 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
         }
 
         const newRecipe = await response.json();
-        await onSubmit(newRecipe); // Yeni recipe'ı parent componente gönder
+        await onSubmit(newRecipe);
       }
-      onCancel(); // Form başarıyla gönderildikten sonra kapat
+      onCancel();
     } catch (error) {
       console.error('Error:', error);
     }

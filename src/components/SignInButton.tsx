@@ -1,17 +1,9 @@
-"use client";
-import React from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import Link from "next/link";
+'use client';
+import React from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
+import Link from 'next/link';
 
 const SigninButton = () => {
   const { data: session } = useSession();
@@ -20,13 +12,7 @@ const SigninButton = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Image
-            src={session.user.image ?? ""}
-            alt={session.user.name ?? ""}
-            className=" rounded-full"
-            width={35}
-            height={35}
-          />
+          <Image src={session.user.image ?? ''} alt={session.user.name ?? ''} className=" rounded-full" width={35} height={35} />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>
@@ -35,11 +21,11 @@ const SigninButton = () => {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              <Link href={"/profile"}>Profile</Link>
+              <Link href={'/profile'}>Profile</Link>
             </DropdownMenuItem>
-            {session.user.role === "admin" && (
+            {session.user.role === 'admin' && (
               <DropdownMenuItem>
-                <Link href={"/admin"}>Admin</Link>
+                <Link href={'/admin'}>Admin</Link>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem>
@@ -53,7 +39,7 @@ const SigninButton = () => {
     );
   }
   return (
-    <button onClick={() => signIn()} className="text-white ml-auto">
+    <button onClick={() => signIn()} className="text-white ml-auto p-0.5 px-2">
       Sign In
     </button>
   );

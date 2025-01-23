@@ -57,8 +57,8 @@ const RecipeDetail = async ({ params }: Props) => {
     }
 
     return (
-      <div className="bg-[url('/background.jpg')] bg-cover min-h-screen  overflow-hidden">
-        <div className="backdrop-blur-sm bg-white/29 min-h-screen overflow-y-auto pb-10">
+      <div className="bg-[url('/background.jpg')] bg-cover bg-center min-h-screen overflow-hidden">
+        <div className="backdrop-blur-sm bg-white/29 min-h-screen overflow-y-auto pb-10 overflow-x-hidden">
           <BackButton />
           <RecipeImage image={recipe.image} />
           <RecipeDetailHeader

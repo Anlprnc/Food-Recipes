@@ -25,7 +25,6 @@ const AdminDashboard = () => {
   const handleRecipeSubmit = async (formData: Recipe) => {
     try {
       if (selectedRecipe) {
-        // Güncelleme işlemi
         const response = await fetch(`/api/recipes/${selectedRecipe.id}`, {
           method: 'PUT',
           headers: {
@@ -37,8 +36,7 @@ const AdminDashboard = () => {
         if (!response.ok) throw new Error('Update failed');
       }
 
-      // Her durumda güncel listeyi çek
-      await fetchRecipes(); // Tüm recipes'leri yeniden çek
+      await fetchRecipes();
       setShowForm(false);
       setSelectedRecipe(undefined);
     } catch (error) {
@@ -91,13 +89,11 @@ const AdminDashboard = () => {
             <h2 className="text-xl font-bold">{recipe.title}</h2>
             <div className="flex gap-2 mt-4">
               <button onClick={() => handleEdit(recipe)} className="bg-yellow-500 text-white px-3 py-1 rounded">
-                {' '}
-                Edit{' '}
-              </button>{' '}
+                Edit
+              </button>
               <button onClick={() => handleDelete(recipe.id)} className="bg-red-500 text-white px-3 py-1 rounded">
-                {' '}
-                Delete{' '}
-              </button>{' '}
+                Delete
+              </button>
             </div>
           </div>
         ))}
