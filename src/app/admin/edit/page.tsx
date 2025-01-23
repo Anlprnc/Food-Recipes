@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import { Recipe } from '@/types/recipe';
 
 type FormDataKeys = Exclude<keyof Recipe, 'id' | 'createdAt' | 'updatedAt'>;
@@ -42,8 +43,10 @@ const EditPage = () => {
       options: ['Easy', 'Medium', 'Hard'],
     },
     { name: 'cuisine', label: 'Cuisine', type: 'text', placeholder: 'e.g., Italian' },
+    { name: 'rating', label: 'Rating', type: 'number', placeholder: 'Enter rating (0-5)' },
+    { name: 'reviews', label: 'Reviews Count', type: 'number', placeholder: 'Enter number of reviews' },
     { name: 'steps', label: 'Steps', type: 'array', placeholder: 'Add cooking step' },
-  ];
+];
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -110,21 +113,23 @@ const EditPage = () => {
       setError('Recipe ID is missing');
       return;
     }
-
+  
     try {
       const updatedData = {
         ...formData,
         id: parseInt(recipeId),
-        rating: Number(formData.rating),
-        reviews: Number(formData.reviews),
+        image: imagePreview || formData.image,
+        rating: Number(formData.rating) || 0,
+        reviews: Number(formData.reviews) || 0,
+        updatedAt: new Date(),
       };
-
+  
       const response = await fetch(`/api/recipes/${recipeId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
-
+  
       if (!response.ok) throw new Error('Update failed');
       router.push('/admin');
     } catch (error) {
@@ -212,7 +217,17 @@ const EditPage = () => {
               }}
               className="w-full p-2 border rounded"
             />
-            {(imagePreview || formData.image) && <img src={imagePreview || formData.image} alt="Preview" className="mt-2 h-40 object-cover rounded" />}
+            {(imagePreview || formData.image) && (
+              <div className="relative w-full h-40 mt-2">
+                <Image
+                  src={imagePreview || formData.image || ''}
+                  alt="Preview"
+                  fill
+                  className="object-cover rounded"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            )}
           </div>
         );
 

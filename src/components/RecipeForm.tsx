@@ -1,5 +1,6 @@
 'use client';
 import { Recipe } from '@/types/recipe';
+import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 
 interface RecipeFormProps {
@@ -252,7 +253,7 @@ const RecipeForm = ({ isEditing, recipe, onSubmit, onCancel }: RecipeFormProps) 
               }}
               className="w-full p-2 border rounded"
             />
-            {(imagePreview || formData.image) && <img src={imagePreview || formData.image} alt="Preview" className="mt-2 h-40 object-cover rounded" />}
+            {(imagePreview || formData.image) && <Image src={imagePreview || formData.image} alt="Preview" className="mt-2 h-40 object-cover rounded" />}
           </div>
         );
 
